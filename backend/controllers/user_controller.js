@@ -1,11 +1,8 @@
-const { sequelize } = require("../models");
-const { DataTypes } = require("sequelize");
-
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const redis_client = require("../utils/redis_client");
 
-const User = require("../models/user")(sequelize, DataTypes);
+const { User } = require("../models");
 
 exports.createNewUser = async (req, res) => {
   const { firstName, lastName, email, password } = req.body;
@@ -18,7 +15,7 @@ exports.createNewUser = async (req, res) => {
       lastName: lastName,
       email: email,
       password: hashedPassword,
-      role:"staff"
+      role: "staff",
     }).then(() => {
       res.status(200).send("User registration successful.");
     });
@@ -26,6 +23,7 @@ exports.createNewUser = async (req, res) => {
 };
 
 exports.loginUser = async (req, res) => {
+  console.log("login invoked");
   const { email, password } = req.body;
 
   try {
@@ -47,7 +45,6 @@ exports.loginUser = async (req, res) => {
   }
 };
 
-
 exports.logoutUser = (req, res) => {
   try {
     req.session.destroy((err) => {
@@ -59,4 +56,4 @@ exports.logoutUser = (req, res) => {
   } catch (error) {
     res.status(500).send("An error occured. You could not be logged out.");
   }
-}
+};

@@ -5,9 +5,10 @@ const auth = require("../middleware/auth");
 
 const router = express.Router();
 
-router.get("/api/members/all", auth, memberControllers.getAllMembers);
-router.get("/api/members/:id", auth, memberControllers.getMemberById);
-router.post("/api/members/create", auth, memberControllers.createNewMember);
-router.post("/api/members/update", auth, memberControllers.updateMemberDetails);
+router.get("/", memberControllers.test);
+router.get("/api/members/all",  memberControllers.getAllMembers);
+router.get("/api/members/:id",  memberControllers.getMemberById);
+router.post("/api/members/create",  memberControllers.createNewMember);
+router.post("/api/members/update",  memberControllers.updateMemberDetails);
 
 module.exports = router;

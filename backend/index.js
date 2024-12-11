@@ -1,7 +1,8 @@
+require("dotenv").config();
 const express = require("express");
-const RedisStore = require("connect-redis").default;
-const redisClient = require("./utils/redis_client");
 const session = require("express-session");
+const { RedisStore } = require("connect-redis");
+const redisClient = require("./utils/redis_client");
 
 const userRoutes = require("./routes/user_routes");
 const memberRoutes = require("./routes/member_routes");
@@ -30,6 +31,7 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use(userRoutes);
 app.use(memberRoutes);
+
 app.get("*", (req, res) => {
   res.redirect("/");
 });

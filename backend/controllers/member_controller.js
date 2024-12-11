@@ -1,6 +1,10 @@
-const { DataTypes, where } = require("sequelize");
-const sequelize = require("../models");
-const Member = require("../models/member")(sequelize, DataTypes);
+const { Member } = require("../models");
+
+
+exports.test = (req, res) => {
+  console.log("tested");
+  res.send("activated");
+}
 
 exports.createNewMember = (req, res) => {
   const firstName = req.body.firstName;

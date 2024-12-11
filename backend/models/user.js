@@ -14,12 +14,24 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   User.init({
-    firstName: DataTypes.STRING,
-    lastName: DataTypes.STRING,
-    email: DataTypes.STRING,
-    password: DataTypes.STRING,
-    role: DataTypes.ENUM("Super Admin","Admin","Staff"),
-    isActive: DataTypes.BOOLEAN
+    firstName: {
+      type: DataTypes.STRING
+    },
+    lastName: {
+      type:DataTypes.STRING
+    },
+    email: {
+     type:DataTypes.STRING
+    },
+    password: {
+      type: DataTypes.STRING
+    },
+    role: {
+      type:DataTypes.ENUM("Super Admin", "Admin", "Staff")
+    },
+    isActive: {
+      type: DataTypes.BOOLEAN
+  }
   }, {
     sequelize,
     modelName: 'User',

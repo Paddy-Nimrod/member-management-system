@@ -3,6 +3,9 @@ const RedisStore = require("connect-redis").default;
 const redisClient = require("./utils/redis_client");
 const session = require("express-session");
 
+const userRoutes = require("./routes/user_routes");
+const memberRoutes = require("./routes/member_routes");
+
 const app = express();
 
 const port = process.env.PORT || 3001;
@@ -23,6 +26,13 @@ app.use(
 );
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
+app.use(userRoutes);
+app.use(memberRoutes);
+app.get("*", (req, res) => {
+  res.redirect("/");
+});
 
 app.listen(() => {
   console.log(`app running on port ${port}`);

@@ -7,8 +7,22 @@ const redis_client = require("../utils/redis_client");
 
 const User = require("../models/user")(sequelize, DataTypes);
 
-exports.createNewUser = (req, res) => {
+exports.createNewUser = async (req, res) => {
   const { firstName, lastName, email, password } = req.body;
+
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  try {
+    User.create({
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      password: hashedPassword,
+      role:"staff"
+    }).then(() => {
+      res.status(200).send("User registration successful.");
+    });
+  } catch (error) {}
 };
 
 exports.loginUser = async (req, res) => {
@@ -32,3 +46,17 @@ exports.loginUser = async (req, res) => {
     return res.status(500).send("internal server error");
   }
 };
+
+
+exports.logoutUser = (req, res) => {
+  try {
+    req.session.destroy((err) => {
+      if (err) {
+        return res.status(500).send("you could not be logged out.");
+      }
+      res.redirect("/");
+    });
+  } catch (error) {
+    res.status(500).send("An error occured. You could not be logged out.");
+  }
+}

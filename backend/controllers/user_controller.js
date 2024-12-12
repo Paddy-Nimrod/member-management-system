@@ -19,7 +19,9 @@ exports.createNewUser = async (req, res) => {
     }).then(() => {
       res.status(200).send("User registration successful.");
     });
-  } catch (error) {}
+  } catch (error) {
+    res.status(500).send("An error occured. Please try again.");
+  }
 };
 
 exports.loginUser = async (req, res) => {

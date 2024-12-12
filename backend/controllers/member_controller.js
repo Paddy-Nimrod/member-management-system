@@ -1,11 +1,5 @@
 const { Member } = require("../models");
 
-
-exports.test = (req, res) => {
-  console.log("tested");
-  res.send("activated");
-}
-
 exports.createNewMember = (req, res) => {
   const firstName = req.body.firstName;
   const lastName = req.body.lastName;

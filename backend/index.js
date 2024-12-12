@@ -36,6 +36,6 @@ app.get("*", (req, res) => {
   res.redirect("/");
 });
 
-app.listen(() => {
+app.listen(port, () => {
   console.log(`app running on port ${port}`);
 });

@@ -10,13 +10,16 @@ exports.createNewUser = async (req, res) => {
   const hashedPassword = await bcrypt.hash(password, 10);
 
   try {
-    User.create({
+    const user = {
       firstName: firstName,
       lastName: lastName,
       email: email,
       password: hashedPassword,
       role: "staff",
-    }).then(() => {
+      isActive: true,
+    };
+    console.log(user);
+    User.create(user).then(() => {
       res.status(200).send("User registration successful.");
     });
   } catch (error) {
@@ -29,18 +32,17 @@ exports.loginUser = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const user = User.findOne({ where: { email: email } });
+    const user = await User.findOne({ where: { email: email } });
     if (!user) {
-      return res.redirect("/user/login");
+      return res.status(404).send("Invalid user credentials");
     }
-    const password_match = bcrypt.compare(password, user.password);
-    if (password_match) {
-      req.session.isAuthenticated = true;
-      req.session.user = user;
-      res.redirect("/api/v1/list/members");
-    } else {
+    const passwordMatch = await bcrypt.compare(password, user.password);
+    if (!passwordMatch) {
       return res.status(400).send("User credentials do not match.");
     }
+    req.session.isAuthenticated = true;
+    req.session.user = user;
+    return res.status(200).redirect("/api/members/all");
   } catch (error) {
     console.log("An error occured during logging in.", error);
     return res.status(500).send("internal server error");

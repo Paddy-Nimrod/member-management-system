@@ -4,6 +4,9 @@ const redis_client = require("../utils/redis_client");
 
 const { User } = require("../models");
 
+const JWT_SECRET = process.env.JWT_SECRET;
+const JWT_EXPIRY = "1h";
+
 exports.createNewUser = async (req, res) => {
   const { firstName, lastName, email, password } = req.body;
 
@@ -34,18 +37,27 @@ exports.loginUser = async (req, res) => {
   try {
     const user = await User.findOne({ where: { email: email } });
     if (!user) {
-      return res.status(404).send("Invalid user credentials");
+      return res.status(404).json({ message: "Invalid user credentials" });
     }
     const passwordMatch = await bcrypt.compare(password, user.password);
+
     if (!passwordMatch) {
-      return res.status(400).send("User credentials do not match.");
+      return res
+        .status(400)
+        .json({ message: "User credentials do not match." });
     }
-    req.session.isAuthenticated = true;
-    req.session.user = user;
-    return res.status(200).redirect("/api/members/all");
+    const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, {
+      expiresIn: JWT_EXPIRY,
+    });
+
+    return res.status(200).json({
+      message: "Login success",
+      token,
+      user: { id: user.id, email: user.email },
+    });
   } catch (error) {
     console.log("An error occured during logging in.", error);
-    return res.status(500).send("internal server error");
+    return res.status(500).json({ message: "internal server error" });
   }
 };
 

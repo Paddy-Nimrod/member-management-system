@@ -1,8 +1,11 @@
 require("dotenv").config();
+const path = require("path");
 const express = require("express");
 const session = require("express-session");
 const { RedisStore } = require("connect-redis");
 const redisClient = require("./utils/redis_client");
+const cors = require("cors");
+const multer = require("multer");
 
 const userRoutes = require("./routes/user_routes");
 const memberRoutes = require("./routes/member_routes");
@@ -26,8 +29,23 @@ app.use(
   })
 );
 
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "uploads");
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + "-" + file.originalname);
+  },
+});
+
+const upload = multer({ storage: storage });
+app.use(express.static(path.join(__dirname, "uploads")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+app.use(cors({ origin: "http://localhost:5173" }));
+
+app.use(upload.single("profilePicture"));
 
 app.use(userRoutes);
 app.use(memberRoutes);

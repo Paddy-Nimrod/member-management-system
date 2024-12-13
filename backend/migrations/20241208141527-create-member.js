@@ -34,7 +34,7 @@ module.exports = {
         type: Sequelize.DATE
       },
       membershipStatus: {
-        type: Sequelize.ENUM("Active","Inactive","Suspended")
+        type: Sequelize.TEXT
       },
       profilePicture: {
         type: Sequelize.STRING

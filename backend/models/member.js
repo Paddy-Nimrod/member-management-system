@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
       dateOfBirth: DataTypes.DATE,
       membershipStartDate: DataTypes.DATE,
       MembershipEndDate: DataTypes.DATE,
-      membershipStatus: DataTypes.ENUM("Active", "Inactive", "Suspended"),
+      membershipStatus: DataTypes.TEXT,
       profilePicture: DataTypes.STRING,
       notes: DataTypes.TEXT,
     },

@@ -10,39 +10,48 @@ exports.createNewMember = (req, res) => {
   const membershipStartDate = req.body.membershipStartDate;
   const membershipEndDate = req.body.MembershipEndDate;
   const membershipStatus = req.body.membershipStatus;
-  const profilePicture = req.body.profilePicture;
   const notes = req.body.notes;
 
+  const profilePicture = req.file ? req.file.path : null;
+
+  const member = {
+    firstName: firstName,
+    lastName: lastName,
+    email: email,
+    phoneNumber: phoneNumber,
+    address: address,
+    dateOfBirth: dateOfBirth,
+    membershipStartDate: membershipStartDate,
+    membershipEndDate: membershipEndDate,
+    membershipStatus: membershipStatus,
+    profilePicture: profilePicture,
+    notes: notes,
+  };
+
   try {
-    Member.create({
-      firstName: firstName,
-      lastName: lastName,
-      email: email,
-      phoneNumber: phoneNumber,
-      address: address,
-      dateOfBirth: dateOfBirth,
-      membershipStartDate: membershipStartDate,
-      membershipEndDate: membershipEndDate,
-      membershipStatus: membershipStatus,
-      profilePicture: profilePicture,
-      notes: notes,
-    }).then(() => {
-      res.status(200).send("Member created successfully.");
+    Member.create(member).then(() => {
+      res.status(200).json({ message: "Member created successfully." });
     });
   } catch (error) {
-    res.status(500).send("Member could not be created. Please try again.");
+    res
+      .status(500)
+      .send("Member could not be created. Please try again.", error);
   }
 };
 
 exports.getAllMembers = async (req, res) => {
   try {
     const members = await Member.findAll();
-    if (!members) {
-      return res.status(200).send("No members found.");
+
+    if (!members || members.length === 0) {
+      return res.status(200).json({ message: "No members found", members: [] });
     }
-    return res.status(200).json(members);
+    return res.status(200).json({ members: members });
   } catch (error) {
-    return res.status(500).send("Bad request. Members could not be fetched.");
+    return res.status(500).json({
+      message: "Bad request. Members could not be fetched.",
+      error: error.message,
+    });
   }
 };
 

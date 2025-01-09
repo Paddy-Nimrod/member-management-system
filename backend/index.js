@@ -39,7 +39,7 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage });
-app.use(express.static(path.join(__dirname, "uploads")));
+app.use("/uploads",express.static("uploads"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 

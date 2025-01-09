@@ -35,13 +35,13 @@ export default function MemberProfilePage() {
   }, [member_id]);
 
   return (
-    <div className="w-full m-auto flex">
-      <div className="flex justify-center items-center w-1/4">
+    <div className="w-full m-auto flex gap-2 p-4">
+      <div className="flex justify-center items-center w-1/4 border-2 rounded-sm border-slate-950">
         {member.profilePicture ? (
           <img
             src={member.profilePicture}
             alt={`${member.firstName} ${member.lastName}'s Profile`}
-            className="w-32 h-32 rounded-full"
+            className="w-full h-full"
           />
         ) : (
           <div className="w-48 h-48 rounded-sm bg-gray-300 flex items-center justify-center text-white">
@@ -49,14 +49,14 @@ export default function MemberProfilePage() {
           </div>
         )}
       </div>
-      <form className="grid grid-cols-3 gap-3 w-3/4" encType="multipart/form-data">
+      <form className="grid grid-cols-3 gap-3 w-3/4 m-2" encType="multipart/form-data">
         <div className="flex flex-col w-full mt-2">
           <label className="font-medium text-gray-500">First Name:</label>
           <input
             className="border p-2 w-full text-gray-700 active:outline-2 focus:outline-none focus:shadow-outline h-10 rounded-md"
             type="text"
             name="firstName"
-            value={member.firstName}
+            value={member.firstName} 
             disabled
           />
         </div>

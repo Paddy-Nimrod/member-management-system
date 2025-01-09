@@ -1,3 +1,5 @@
+const path = require("path")
+const fs = require("fs");
 const { Member } = require("../models");
 
 exports.createNewMember = (req, res) => {
@@ -57,10 +59,15 @@ exports.getAllMembers = async (req, res) => {
 
 exports.getMemberById = async (req, res) => {
   const memberId = req.params.id;
+
   try {
     const member = await Member.findByPk(memberId);
     if (!member) {
       return res.status(200).send("No member found with that ID.");
+    }
+    if (member.profilePicture) {
+      member.profilePicture = `http://localhost:3001/${member.profilePicture}`;
+      // member.profilePicture = profile_picture_url;
     }
     return res.status(200).json(member);
   } catch (error) {

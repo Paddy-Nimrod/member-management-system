@@ -54,7 +54,7 @@ export default function ListMemberPage() {
           />
         </div>
       ) : (
-        <div className="w-9/12 m-auto p-4">
+        <div className="w-full m-auto p-4">
           <table className="w-full table-auto border-collapse border border-gray-300">
             <thead className="bg-gray-200">
               <tr>
@@ -71,7 +71,7 @@ export default function ListMemberPage() {
             <tbody>
               {members ? (
                 members.map((member) => (
-                  <tr key={member.id}>
+                  <tr className="hover:bg-slate-200" key={member.id}>
                     <td className="border border-gray-300 px-4 py-2">
                       {member.id}
                     </td>

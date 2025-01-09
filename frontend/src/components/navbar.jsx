@@ -1,5 +1,5 @@
 import React from "react";
-import { UseAuth } from "../context/authContext";
+import { UseAuth } from "../context/auth_context";
 import {Link} from "react-router"
 
 const Navbar = () => {
@@ -35,15 +35,15 @@ const Navbar = () => {
               </li>
             </>
           ) : (
-            <>
+            <div className="w-1/4 flex items-center m-auto justify-around mr-0">
               {/* If not logged in, show Login/Signup options */}
-              <li className="text-white font-semibold text-lg">
+              <li className="text-white text-lg ">
                 <a href="/">Login</a>
               </li>
-              <li className="text-white font-semibold text-lg">
+              <li className="text-white text-lg">
                 <a href="/user/register">Register</a>
               </li>
-            </>
+            </div>
           )}
         </ul>
       </div>

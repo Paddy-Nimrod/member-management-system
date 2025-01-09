@@ -1,6 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 
 const RegisterPage = () => {
+
+  const [user, setUser] = useState();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+  }
+
   return (
     <div>
       <div className="mt-19 flex flex-col w-1/3 mx-auto ">
@@ -10,7 +18,7 @@ const RegisterPage = () => {
         <div className="w-full m-auto  rounded-md h-60 p-4">
           <form
             className="flex flex-col justify-center"
-            action=""
+            onSubmit={handleSubmit}
             method="post"
           >
             <div>

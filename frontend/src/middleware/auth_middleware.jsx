@@ -1,18 +1,19 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router";
-import { UseAuth } from "../context/authContext";
+import { UseAuth } from "../context/auth_context";
 
 const ProtectedRoute = ({ children }) => {
   const navigate = useNavigate();
   const { token } = UseAuth();
+  const storedToken = sessionStorage.getItem("authToken");
 
   useEffect(() => {
-    if (!token) {
+    if (!token && !storedToken) {
       navigate("/");
     }
-  }, [token, navigate]);
+  }, [token, storedToken, navigate]);
 
-  return token ? children : null;
+  return token || storedToken ? children : null;
 };
 
 export default ProtectedRoute;

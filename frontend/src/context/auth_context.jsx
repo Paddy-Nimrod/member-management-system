@@ -1,20 +1,17 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router"; 
+import { useNavigate } from "react-router";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  
-  const [user, setUser] = useState(null);
-  const [token, setToken] = useState(null);
-  const navigate = useNavigate(); 
+  const [user, setUser] = useState();
+  const [token, setToken] = useState();
 
   const login = (userData, token) => {
     setUser(userData);
-    setToken(token)
+    setToken(token);
     sessionStorage.setItem("user", JSON.stringify(userData));
     sessionStorage.setItem("authToken", token);
-    navigate("/dashboard")
   };
 
   const logout = () => {
@@ -22,7 +19,6 @@ export const AuthProvider = ({ children }) => {
     setToken(null);
     sessionStorage.removeItem("user");
     sessionStorage.removeItem("authToken");
-    navigate("/"); 
   };
 
   useEffect(() => {
@@ -36,8 +32,8 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, token,login, logout }}>
-      {children} 
+    <AuthContext.Provider value={{ user, token, login, logout }}>
+      {children}
     </AuthContext.Provider>
   );
 };

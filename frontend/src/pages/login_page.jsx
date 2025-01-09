@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
-import { UseAuth } from "../context/authContext";
+import { UseAuth } from "../context/auth_context";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -35,7 +35,6 @@ const LoginPage = () => {
       }
 
       const data = await response.json();
-      console.log("login success", data);
 
       login(data.user, data.token);
       navigate("/dashboard");
@@ -44,9 +43,7 @@ const LoginPage = () => {
       setError("An error occured during login. please try again.");
     }
   };
-//   const togglePasswordVisibility = () => {
-//     setPasswordVisible(!passwordVisible);
-//   };
+
   return (
     <div>
       <div className="mt-24 flex flex-col w-1/3 mx-auto ">

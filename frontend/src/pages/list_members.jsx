@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Audio } from "react-loader-spinner";
+import { Link } from "react-router";
 
 export default function ListMemberPage() {
   const [loading, setLoading] = useState(true);
   const [members, setMembers] = useState([]);
   const [error, setError] = useState(null);
+
+  const memberDetails = () => {
+    alert(member.id);
+  };
 
   useEffect(() => {
     const fetchMembers = async () => {
@@ -83,8 +88,8 @@ export default function ListMemberPage() {
                       {member.phoneNumber}
                     </td>
                     <td className="border border-gray-300 px-4 py-2">
-                      <a>view</a>
-                    </td>
+                      <Link to={`/member/profile/${member.id}`}>view</Link>
+                    </td> 
                   </tr>
                 ))
               ) : (

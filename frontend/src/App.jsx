@@ -36,7 +36,7 @@ function App() {
           }
         />
         <Route
-          path="/member/update/:id"
+          path="/member/profile/:member_id"
           element={
             <ProtectedRoute>
               <MemberProfilePage />
